@@ -32,7 +32,7 @@ export default function Header() {
               src="/assets/logo/butterfly_logo_uncompressed.jpeg"
               alt="Jeanne S R. Logo"
               fill
-              priority
+              preload
               sizes="36px"
               className="object-cover"
             />

@@ -6,19 +6,7 @@ import { useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
 
-export type LocalizedString = {
-  en: string;
-  fr: string;
-};
-
-export type Artwork = {
-  src: string;
-  alt: string;
-  aspect: string;
-  title?: LocalizedString;
-  medium?: LocalizedString;
-  dimensions?: string;
-};
+import type { Artwork } from "@/lib/types";
 
 interface ArtworkModalProps {
   artwork: Artwork;
@@ -88,7 +76,7 @@ export default function ArtworkModal({ artwork, onClose, onNext, onPrev }: Artwo
 
       {/* Details Panel */}
       <motion.div
-        key={`details-${artwork.src}-${language}`}
+        key={`details-${artwork.id}-${language}`}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
@@ -96,7 +84,7 @@ export default function ArtworkModal({ artwork, onClose, onNext, onPrev }: Artwo
         className="absolute bottom-8 left-8 z-50 text-white max-w-sm pointer-events-none"
       >
         <h2 className="font-serif text-2xl md:text-4xl mb-2 tracking-wide">
-          {artwork.title?.[language] || t('untitled')}
+          {artwork.title[language] || t('untitled')}
         </h2>
         <p className="font-light text-white/70 text-sm tracking-widest uppercase">
           {artwork.medium?.[language] || t('watercolor')}
@@ -109,7 +97,7 @@ export default function ArtworkModal({ artwork, onClose, onNext, onPrev }: Artwo
       {/* Cinematic View - Full screen focus */}
       <div className="relative w-full h-full flex items-center justify-center overflow-hidden p-12 md:p-24" onClick={onClose}>
         <motion.div
-          key={`image-${artwork.src}`}
+          key={`image-${artwork.id}`}
           initial={{ opacity: 0, scale: 1.02, filter: "blur(10px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           exit={{ opacity: 0, scale: 0.98, filter: "blur(10px)" }}
@@ -119,11 +107,11 @@ export default function ArtworkModal({ artwork, onClose, onNext, onPrev }: Artwo
         >
           <Image
             src={artwork.src}
-            alt={artwork.alt}
+            alt={artwork.title.en}
             fill
             className="object-contain drop-shadow-2xl"
             sizes="100vw"
-            priority
+            preload
           />
         </motion.div>
       </div>

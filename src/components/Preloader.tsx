@@ -46,7 +46,7 @@ export default function Preloader() {
                 src="/assets/logo/butterfly_logo_uncompressed.jpeg"
                 alt="Jeanne S R. Logo"
                 fill
-                priority
+                preload
                 className="object-contain"
                 sizes="(max-width: 768px) 128px, 192px"
               />
