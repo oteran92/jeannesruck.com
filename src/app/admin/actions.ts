@@ -61,6 +61,18 @@ export async function saveArtwork(_: ActionState, form: FormData): Promise<Actio
   return { ok: true };
 }
 
+// Applies a new gallery order; rejects lists that don't match the stored artworks exactly.
+export async function reorderArtworks(ids: string[]) {
+  await requireAdmin();
+  const artworks = await getArtworks();
+  const byId = new Map(artworks.map((a) => [a.id, a]));
+  if (ids.length !== artworks.length || new Set(ids).size !== ids.length || !ids.every((id) => byId.has(id))) {
+    throw new Error("The artwork list changed, please reload the page");
+  }
+  await saveArtworks(ids.map((id) => byId.get(id)!));
+  refresh();
+}
+
 export async function deleteArtwork(id: string) {
   await requireAdmin();
   const artworks = await getArtworks();
